@@ -587,56 +587,75 @@
        APPOINTMENT FORM SECTION
        ========================================================= -->
   <section class="section section-bg" id="appointment">
-    <div class="container">
-      <div class="section-title text-center">
-        <h2>Réserver un rendez-vous</h2>
-        <p>Remplissez le formulaire et notre équipe vous contactera rapidement.</p>
-      </div>
+  <div class="container">
+    <div class="section-title text-center">
+      <h2>Réserver un rendez-vous</h2>
+      <p>Remplissez le formulaire et notre équipe vous contactera rapidement.</p>
+    </div>
 
-      <div class="row justify-content-center">
-        <div class="col-lg-8">
-          <div class="p-4 form-card">
-            <form id="appointmentForm">
-              <div class="row g-3">
-                <div class="col-md-6">
-                  <input type="text" class="form-control" placeholder="Nom complet" name="name" required />
-                </div>
-                <div class="col-md-6">
-                  <input type="email" class="form-control" placeholder="Adresse e-mail" name="email" required />
-                </div>
-                <div class="col-md-6">
-                  <input type="tel" class="form-control" placeholder="Numéro de téléphone" name="phone" required />
-                </div>
-                <div class="col-md-6">
-                  <input type="date" class="form-control" name="date" required />
-                </div>
-                <div class="col-12">
-                  <select class="form-select" name="service" required>
-                    <option value="">Sélectionner un service</option>
-                    <option>Nettoyage des dents</option>
-                    <option>Blanchiment des dents</option>
-                    <option>Implants dentaires</option>
-                    <option>Appareils dentaires et orthodontie</option>
-                    <option>Soins restaurateurs</option>
-                    <option>Dentisterie d'urgence</option>
-                  </select>
-                </div>
-                <div class="col-12">
-                  <textarea class="form-control" name="message" rows="3" placeholder="Notes supplémentaires"></textarea>
-                </div>
-                <div class="col-12 text-center">
-                  <button type="submit" class="btn btn-brand">
-                    <i class="bi bi-calendar2-check me-1"></i> Soumettre le rendez-vous
-                  </button>
-                </div>
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="p-4 form-card">
+          <form id="appointmentForm">
+            <div class="row g-3">
+
+              <!-- Nom -->
+              <div class="col-md-6">
+                <input type="text" class="form-control" placeholder="Nom" name="nom" required>
               </div>
-            </form>
-            <div id="formMessage" class="mt-3 text-center small text-success" style="display:none;">Merci ! Votre rendez-vous a été soumis.</div>
+
+              <!-- Prénom -->
+              <div class="col-md-6">
+                <input type="text" class="form-control" placeholder="Prénom" name="prenom" required>
+              </div>
+
+              <!-- Téléphone -->
+              <div class="col-md-6">
+                <input type="tel" class="form-control" placeholder="Numéro de téléphone" name="phone" required>
+              </div>
+
+              <!-- Date -->
+              <div class="col-md-6">
+                <input type="date" class="form-control" name="date" required>
+              </div>
+
+              <!-- Service -->
+              <div class="col-12">
+                <select class="form-select" name="service" required>
+                  <option value="">Sélectionner un service</option>
+                  <option>Nettoyage des dents</option>
+                  <option>Blanchiment des dents</option>
+                  <option>Implants dentaires</option>
+                  <option>Appareils dentaires et orthodontie</option>
+                  <option>Soins restaurateurs</option>
+                  <option>Dentisterie d'urgence</option>
+                </select>
+              </div>
+
+              <!-- Message -->
+              <div class="col-12">
+                <textarea class="form-control" name="message" rows="3" placeholder="Notes supplémentaires"></textarea>
+              </div>
+
+              <!-- Button -->
+              <div class="col-12 text-center">
+                <button type="submit" class="btn btn-brand">
+                  <i class="bi bi-calendar2-check me-1"></i> Soumettre le rendez-vous
+                </button>
+              </div>
+
+            </div>
+          </form>
+
+          <div id="formMessage" class="mt-3 text-center small text-success" style="display:none;">
+            Merci ! Votre rendez-vous a été soumis.
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+
 
   <!-- =========================================================
        TESTIMONIALS SECTION
