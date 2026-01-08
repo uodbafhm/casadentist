@@ -1,0 +1,795 @@
+<!--
+  File: dentist.html
+  Description: Single-file, responsive dentist clinic website (HTML5 + CSS3 + Bootstrap 5 + jQuery).
+  Notes:
+  - Only external dependencies: Bootstrap 5 CDN + jQuery CDN.
+  - All custom CSS/JS are internal.
+  - Clean medical design: white + light blue palette.
+-->
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clinique Dentaire BrightSmile</title>
+  <meta name="description" content="Clinique Dentaire BrightSmile - Soins dentaires professionnels incluant nettoyage, blanchiment, implants et appareils dentaires." />
+
+  <!-- Bootstrap 5 CSS (CDN) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Bootstrap Icons (CDN) - optional but helpful for UI icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+
+  <style>
+    /* =========================================================
+       THEME VARIABLES (Clean medical: white + light blue)
+       ========================================================= */
+    :root{
+      --brand: #1aa3d8;          /* primary light-blue */
+      --brand-dark: #0b78a5;     /* darker blue for contrast */
+      --soft: #f5fbff;           /* soft blue background */
+      --ink: #0f172a;            /* near-slate text */
+      --muted: #64748b;          /* muted text */
+      --card-border: rgba(26,163,216,.18);
+      --shadow: 0 12px 35px rgba(2, 132, 199, 0.12);
+      --radius: 16px;
+    }
+
+    /* =========================================================
+       BASE
+       ========================================================= */
+    html { scroll-behavior: auto; } /* We'll do smooth scrolling with jQuery for control */
+    body{
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--ink);
+      background: #fff;
+      overflow-x: hidden;
+    }
+
+    a { color: var(--brand-dark); }
+    a:hover { color: var(--brand); }
+
+    .section{
+      padding: 80px 0;
+    }
+    .section-bg{
+      background: linear-gradient(180deg, var(--soft), #fff);
+    }
+    .section-title{
+      margin-bottom: 28px;
+    }
+    .section-title h2{
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+    .section-title p{
+      color: var(--muted);
+      margin: 0;
+    }
+
+    /* =========================================================
+       NAVBAR
+       ========================================================= */
+    .navbar{
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(2,132,199,.10);
+    }
+    .brand-badge{
+      width: 40px; height: 40px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--brand), #6ee7ff);
+      box-shadow: 0 10px 25px rgba(26,163,216,.22);
+      color: white;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .navbar .nav-link{
+      color: #0b2a3a;
+      font-weight: 600;
+    }
+    .navbar .nav-link:hover,
+    .navbar .nav-link.active{
+      color: var(--brand-dark);
+    }
+
+    /* =========================================================
+       HERO
+       ========================================================= */
+    .hero{
+      padding-top: 110px; /* compensate for sticky nav */
+      padding-bottom: 70px;
+      background:
+        radial-gradient(1200px 600px at 20% 10%, rgba(26,163,216,.18), transparent 60%),
+        radial-gradient(900px 500px at 80% 30%, rgba(110,231,255,.22), transparent 60%),
+        linear-gradient(180deg, var(--soft), #fff 70%);
+    }
+    .hero h1{
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      margin-bottom: 16px;
+    }
+    .hero p{
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin-bottom: 22px;
+      max-width: 42rem;
+    }
+    .btn-brand{
+      background: var(--brand);
+      border-color: var(--brand);
+      color: #fff;
+      font-weight: 700;
+      border-radius: 12px;
+      padding: 12px 18px;
+      box-shadow: 0 10px 22px rgba(26,163,216,.18);
+    }
+    .btn-brand:hover{
+      background: var(--brand-dark);
+      border-color: var(--brand-dark);
+      color: #fff;
+    }
+    .btn-soft{
+      background: rgba(26,163,216,.10);
+      border: 1px solid rgba(26,163,216,.25);
+      color: var(--brand-dark);
+      font-weight: 700;
+      border-radius: 12px;
+      padding: 12px 18px;
+    }
+    .hero-card{
+      border-radius: var(--radius);
+      border: 1px solid rgba(2,132,199,.14);
+      background: rgba(255,255,255,.75);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .hero-img{
+      width: 100%;
+      height: 420px;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+    .hero-bullets{
+      gap: 10px;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: .95rem;
+    }
+    .hero-bullets i{
+      color: var(--brand-dark);
+    }
+
+    /* =========================================================
+       CARDS / COMPONENTS
+       ========================================================= */
+    .feature-card,
+    .service-card,
+    .testimonial-card,
+    .form-card{
+      border-radius: var(--radius);
+      border: 1px solid var(--card-border);
+      box-shadow: 0 10px 26px rgba(2, 132, 199, 0.08);
+      background: #fff;
+      height: 100%;
+    }
+    .service-icon{
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: rgba(26,163,216,.12);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--brand-dark);
+      font-size: 1.4rem;
+    }
+    .small-muted{
+      color: var(--muted);
+    }
+
+    /* =========================================================
+       FORM
+       ========================================================= */
+    .form-control, .form-select{
+      border-radius: 12px;
+      border-color: rgba(2,132,199,.20);
+    }
+    .form-control:focus, .form-select:focus{
+      border-color: rgba(26,163,216,.60);
+      box-shadow: 0 0 0 .25rem rgba(26,163,216,.18);
+    }
+    .is-invalid{
+      border-color: #dc3545 !important;
+    }
+    .invalid-feedback{
+      display: none; /* We'll show via jQuery for consistent behavior */
+    }
+    .invalid-feedback.show{
+      display: block;
+    }
+
+    /* =========================================================
+       MAP
+       ========================================================= */
+    .map-embed{
+      border-radius: var(--radius);
+      border: 1px solid rgba(2,132,199,.18);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      min-height: 320px;
+      background: #fff;
+    }
+    .map-embed iframe{
+      width: 100%;
+      height: 320px;
+      border: 0;
+      display: block;
+    }
+
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+    footer{
+      background: #061a24;
+      color: rgba(255,255,255,.86);
+      padding: 36px 0;
+    }
+    footer a{
+      color: rgba(255,255,255,.86);
+      text-decoration: none;
+    }
+    footer a:hover{
+      color: #fff;
+      text-decoration: underline;
+    }
+    .social a{
+      width: 40px; height: 40px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      margin-right: 8px;
+    }
+
+    /* =========================================================
+       SCROLL-TO-TOP BUTTON
+       ========================================================= */
+    #scrollTopBtn{
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 1030; /* above content */
+      display: none; /* toggled via jQuery */
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      border: 1px solid rgba(2,132,199,.24);
+      background: rgba(255,255,255,.92);
+      color: var(--brand-dark);
+      box-shadow: 0 16px 36px rgba(2, 132, 199, 0.18);
+    }
+    #scrollTopBtn:hover{
+      background: #fff;
+      color: var(--brand);
+    }
+
+    /* =========================================================
+       RESPONSIVE TWEAKS
+       ========================================================= */
+    @media (max-width: 991.98px){
+      .hero-img{ height: 340px; }
+      .section{ padding: 70px 0; }
+    }
+    @media (max-width: 575.98px){
+      .hero{ padding-top: 95px; }
+      .hero h1{ font-size: 2.0rem; }
+      .hero-img{ height: 260px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================================================
+       STICKY NAVBAR
+       - Uses Bootstrap navbar styling
+       - jQuery handles mobile menu toggle (collapse)
+       ========================================================= -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="#home">
+        <span class="brand-badge">BS</span>
+        <span>BrightSmile Dentaire</span>
+      </a>
+
+      <!-- Mobile toggle button (we'll hook this up via jQuery) -->
+      <button class="navbar-toggler" type="button" aria-label="Toggle navigation" id="mobileMenuBtn">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+          <li class="nav-item"><a class="nav-link" href="#about">À propos</a></li>
+          <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="#why">Pourquoi nous choisir</a></li>
+          <li class="nav-item"><a class="nav-link" href="#appointment">Rendez-vous</a></li>
+          <li class="nav-item"><a class="nav-link" href="#testimonials">Témoignages</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+          <li class="nav-item ms-lg-2">
+            <a class="btn btn-sm btn-brand" href="#appointment">
+              <i class="bi bi-calendar2-check me-1"></i> Réserver maintenant
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- =========================================================
+       HERO SECTION
+       ========================================================= -->
+  <header class="hero" id="home">
+    <div class="container">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-6">
+          <div class="mb-3 d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill"
+               style="background: rgba(26,163,216,.10); border: 1px solid rgba(26,163,216,.18);">
+            <i class="bi bi-shield-check" style="color: var(--brand-dark);"></i>
+            <span class="small fw-semibold" style="color: var(--brand-dark);">Soins dentaires fiables, doux et modernes</span>
+          </div>
+
+          <h1>Dents saines. Sourire confiant.</h1>
+          <p>
+            BrightSmile Dentaire offre des soins complets – du nettoyage de routine aux implants avancés – avec
+            une équipe amicale et un équipement à la pointe de la technologie.
+          </p>
+
+          <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-brand" href="#appointment">
+              <i class="bi bi-calendar2-plus me-1"></i> Prendre rendez-vous
+            </a>
+            <a class="btn btn-soft" href="#services">
+              <i class="bi bi-stars me-1"></i> Explorer les services
+            </a>
+          </div>
+
+          <div class="mt-4 d-flex flex-wrap hero-bullets">
+            <span class="d-inline-flex align-items-center gap-2">
+              <i class="bi bi-check-circle-fill"></i> Programmation le jour même
+            </span>
+            <span class="d-inline-flex align-items-center gap-2">
+              <i class="bi bi-check-circle-fill"></i> Convivial pour les familles
+            </span>
+            <span class="d-inline-flex align-items-center gap-2">
+              <i class="bi bi-check-circle-fill"></i> Tarification transparente
+            </span>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="hero-card">
+            <!-- Dentist image (CDN). You may replace with your own local image if desired. -->
+            <img
+              class="hero-img"
+              src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&w=1400&q=80"
+              alt="Dentiste avec patient dans une clinique moderne" />
+
+            <div class="p-4">
+              <div class="row g-3">
+                <div class="col-6">
+                  <div class="p-3 feature-card">
+                    <div class="d-flex align-items-center gap-2 mb-1">
+                      <i class="bi bi-clock-history" style="color: var(--brand-dark);"></i>
+                      <strong>Horaires</strong>
+                    </div>
+                    <div class="small-muted">Lun–Sam : 9h–19h</div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="p-3 feature-card">
+                    <div class="d-flex align-items-center gap-2 mb-1">
+                      <i class="bi bi-geo-alt" style="color: var(--brand-dark);"></i>
+                      <strong>Emplacement</strong>
+                    </div>
+                    <div class="small-muted">Plaza Médical Centre-Ville</div>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-3 small text-muted">
+                <i class="bi bi-info-circle me-1"></i>
+                Pour les urgences, appelez <strong>(555) 123-4567</strong>.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================
+       ABOUT SECTION
+       ========================================================= -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="section-title text-center">
+        <h2>À propos de BrightSmile</h2>
+        <p>Dentisterie axée sur le confort avec technologie moderne et équipe attentionnée.</p>
+      </div>
+
+      <div class="row align-items-center g-4">
+        <div class="col-lg-6">
+          <div class="p-4 feature-card">
+            <h5 class="fw-bold mb-2">Notre Mission</h5>
+            <p class="text-muted mb-3">
+              Nous aidons les patients à se sentir confiants dans leur sourire grâce à des soins préventifs, des plans de traitement clairs,
+              et des procédures douces – dispensés dans un environnement calme, propre et moderne.
+            </p>
+
+            <div class="row g-3">
+              <div class="col-md-6">
+                <div class="p-3 rounded-4" style="background: rgba(26,163,216,.08); border: 1px solid rgba(26,163,216,.16);">
+                  <div class="d-flex align-items-center gap-2 mb-1">
+                    <i class="bi bi-heart-pulse" style="color: var(--brand-dark);"></i>
+                    <strong>Patient d'abord</strong>
+                  </div>
+                  <div class="small-muted">Soins confortables, à chaque visite.</div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="p-3 rounded-4" style="background: rgba(26,163,216,.08); border: 1px solid rgba(26,163,216,.16);">
+                  <div class="d-flex align-items-center gap-2 mb-1">
+                    <i class="bi bi-cpu" style="color: var(--brand-dark);"></i>
+                    <strong>Outils modernes</strong>
+                  </div>
+                  <div class="small-muted">Imagerie numérique et précision.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-3 small text-muted">
+              <i class="bi bi-shield-check me-1"></i>
+              Nous suivons des normes strictes de stérilisation et de sécurité.
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+                    <div class="p-4 feature-card h-100">
+            <h5 class="fw-bold mb-3">Faits rapides</h5>
+            <ul class="mb-3 small text-muted">
+              <li>Au service de la communauté depuis plus de 15 ans</li>
+              <li>Équipement d'imagerie numérique de pointe</li>
+              <li>Équipe amicale de dentistes et hygiénistes certifiés</li>
+              <li>Programmation flexible et soins d'urgence</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       SERVICES SECTION
+       ========================================================= -->
+  <section class="section section-bg" id="services">
+    <div class="container">
+      <div class="section-title text-center">
+        <h2>Nos Services</h2>
+        <p>Soins dentaires complets adaptés à vos besoins.</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+          <div class="p-4 service-card text-center">
+            <div class="service-icon mb-3">
+              <i class="bi bi-droplet-half"></i>
+            </div>
+            <h5>Nettoyage des dents</h5>
+            <p class="small-muted">Nettoyage doux et approfondi pour garder votre sourire sain et éclatant.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="p-4 service-card text-center">
+            <div class="service-icon mb-3">
+              <i class="bi bi-stars"></i>
+            </div>
+            <h5>Blanchiment des dents</h5>
+            <p class="small-muted">Blanchiment sûr et efficace pour un sourire plus éclatant et confiant.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="p-4 service-card text-center">
+            <div class="service-icon mb-3">
+              <i class="bi bi-gear"></i>
+            </div>
+            <h5>Implants dentaires</h5>
+            <p class="small-muted">Solutions durables pour restaurer les dents manquantes avec précision.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="p-4 service-card text-center">
+            <div class="service-icon mb-3">
+              <i class="bi bi-braces"></i>
+            </div>
+            <h5>Appareils dentaires et orthodontie</h5>
+            <p class="small-muted">Soins orthodontiques personnalisés pour enfants et adultes.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="p-4 service-card text-center">
+            <div class="service-icon mb-3">
+              <i class="bi bi-tooth"></i>
+            </div>
+            <h5>Soins restaurateurs</h5>
+            <p class="small-muted">Obturations, couronnes et ponts pour restaurer la fonction et l'esthétique.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="p-4 service-card text-center">
+            <div class="service-icon mb-3">
+              <i class="bi bi-hospital"></i>
+            </div>
+            <h5>Dentisterie d'urgence</h5>
+            <p class="small-muted">Soins rapides pour les urgences dentaires et les besoins de traitement urgent.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       WHY CHOOSE US SECTION
+       ========================================================= -->
+  <section class="section" id="why">
+    <div class="container">
+      <div class="section-title text-center">
+        <h2>Pourquoi choisir BrightSmile</h2>
+        <p>Fiable pour des centaines de patients heureux chaque année.</p>
+      </div>
+
+      <div class="row g-4 text-center">
+        <div class="col-md-4">
+          <div class="p-4 feature-card">
+            <i class="bi bi-award" style="font-size: 2rem; color: var(--brand);"></i>
+            <h5 class="mt-3">Équipe experte</h5>
+            <p class="small-muted">Dentistes certifiés et expérimentés offrant des soins personnalisés.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="p-4 feature-card">
+            <i class="bi bi-hospital" style="font-size: 2rem; color: var(--brand);"></i>
+            <h5 class="mt-3">Clinique moderne</h5>
+            <p class="small-muted">Équipement avancé dans un environnement propre et confortable.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="p-4 feature-card">
+            <i class="bi bi-heart" style="font-size: 2rem; color: var(--brand);"></i>
+            <h5 class="mt-3">Soins centrés sur le patient</h5>
+            <p class="small-muted">Nous priorisons le confort, la sécurité et la communication claire à chaque étape.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       APPOINTMENT FORM SECTION
+       ========================================================= -->
+  <section class="section section-bg" id="appointment">
+    <div class="container">
+      <div class="section-title text-center">
+        <h2>Réserver un rendez-vous</h2>
+        <p>Remplissez le formulaire et notre équipe vous contactera rapidement.</p>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="p-4 form-card">
+            <form id="appointmentForm">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <input type="text" class="form-control" placeholder="Nom complet" name="name" required />
+                </div>
+                <div class="col-md-6">
+                  <input type="email" class="form-control" placeholder="Adresse e-mail" name="email" required />
+                </div>
+                <div class="col-md-6">
+                  <input type="tel" class="form-control" placeholder="Numéro de téléphone" name="phone" required />
+                </div>
+                <div class="col-md-6">
+                  <input type="date" class="form-control" name="date" required />
+                </div>
+                <div class="col-12">
+                  <select class="form-select" name="service" required>
+                    <option value="">Sélectionner un service</option>
+                    <option>Nettoyage des dents</option>
+                    <option>Blanchiment des dents</option>
+                    <option>Implants dentaires</option>
+                    <option>Appareils dentaires et orthodontie</option>
+                    <option>Soins restaurateurs</option>
+                    <option>Dentisterie d'urgence</option>
+                  </select>
+                </div>
+                <div class="col-12">
+                  <textarea class="form-control" name="message" rows="3" placeholder="Notes supplémentaires"></textarea>
+                </div>
+                <div class="col-12 text-center">
+                  <button type="submit" class="btn btn-brand">
+                    <i class="bi bi-calendar2-check me-1"></i> Soumettre le rendez-vous
+                  </button>
+                </div>
+              </div>
+            </form>
+            <div id="formMessage" class="mt-3 text-center small text-success" style="display:none;">Merci ! Votre rendez-vous a été soumis.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       TESTIMONIALS SECTION
+       ========================================================= -->
+  <section class="section" id="testimonials">
+    <div class="container">
+      <div class="section-title text-center">
+        <h2>Témoignages</h2>
+        <p>Ce que disent nos patients</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="p-4 testimonial-card">
+            <p class="small-muted">"BrightSmile Dentaire a transformé mon sourire ! L'équipe est professionnelle et attentionnée."</p>
+            <strong>— Sarah L.</strong>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="p-4 testimonial-card">
+            <p class="small-muted">"Personnel amical et procédures indolores. Hautement recommandé pour les familles."</p>
+            <strong>— James K.</strong>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="p-4 testimonial-card">
+            <p class="small-muted">"Clinique moderne avec équipement de pointe. Je me sens confiant en les visitant à chaque fois."</p>
+            <strong>— Emily R.</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       CONTACT & MAP SECTION
+       ========================================================= -->
+  <section class="section section-bg" id="contact">
+    <div class="container">
+      <div class="section-title text-center">
+        <h2>Contactez-nous</h2>
+        <p>Visitez ou contactez la Clinique Dentaire BrightSmile</p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-6">
+        <div class="p-4 feature-card h-100">
+          <h5 class="fw-bold mb-3">Notre emplacement</h5>
+          <div class="map-embed mb-3">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3111.123456!2d-122.419415!3d37.774929!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085809c1234567%3A0x123456789abcdef!2sDental%20Clinic!5e0!3m2!1sen!2sus!4v1699999999999" allowfullscreen></iframe>
+          </div>
+          <p class="small-muted mb-1"><i class="bi bi-geo-alt me-1"></i> 123 Rue Principale, Centre-Ville</p>
+          <p class="small-muted mb-1"><i class="bi bi-telephone me-1"></i> +212643587891</p>
+          <p class="small-muted mb-0"><i class="bi bi-envelope me-1"></i> info@brightsmile.com</p>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="p-4 form-card h-100">
+          <h5 class="fw-bold mb-3">Envoyez-nous un message</h5>
+          <form id="contactForm">
+            <div class="mb-3">
+              <input type="text" class="form-control" placeholder="Votre nom" name="name" required>
+            </div>
+            <div class="mb-3">
+              <input type="email" class="form-control" placeholder="Votre e-mail" name="email" required>
+            </div>
+            <div class="mb-3">
+              <textarea class="form-control" rows="4" placeholder="Votre message" name="message" required></textarea>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-brand">Envoyer le message</button>
+            </div>
+          </form>
+          <div id="contactMessage" class="mt-3 text-center small text-success" style="display:none;">Merci ! Votre message a été envoyé.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     FOOTER
+     ========================================================= -->
+<footer>
+  <div class="container text-center">
+    <p class="mb-2">&copy; 2026 Clinique Dentaire BrightSmile. Tous droits réservés.</p>
+    <div class="social mb-2">
+      <a href="#"><i class="bi bi-facebook"></i></a>
+      <a href="#"><i class="bi bi-twitter"></i></a>
+      <a href="#"><i class="bi bi-instagram"></i></a>
+      <a href="#"><i class="bi bi-linkedin"></i></a>
+    </div>
+    <p class="small-muted mb-0">Conçu et développé avec ❤️ par l'équipe BrightSmile</p>
+  </div>
+</footer>
+
+<!-- Scroll-to-top button -->
+<button id="scrollTopBtn"><i class="bi bi-arrow-up"></i></button>
+
+<!-- =========================================================
+     SCRIPTS
+     ========================================================= -->
+<!-- jQuery CDN -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<!-- Bootstrap 5 JS Bundle CDN -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+$(document).ready(function(){
+
+  // Mobile menu toggle
+  $('#mobileMenuBtn').click(function(){
+    $('#navbarContent').collapse('toggle');
+  });
+
+  // Smooth scroll for anchor links
+  $('a[href^="#"]').click(function(e){
+    e.preventDefault();
+    var target = $(this.hash);
+    if(target.length){
+      $('html, body').animate({scrollTop: target.offset().top - 90}, 700);
+    }
+  });
+
+  // Scroll-to-top button
+  $(window).scroll(function(){
+    if($(this).scrollTop() > 300){
+      $('#scrollTopBtn').fadeIn();
+    } else {
+      $('#scrollTopBtn').fadeOut();
+    }
+  });
+  $('#scrollTopBtn').click(function(){
+    $('html, body').animate({scrollTop:0}, 600);
+  });
+
+  // Appointment form submission simulation
+  $('#appointmentForm').submit(function(e){
+    e.preventDefault();
+    $('#formMessage').fadeIn().delay(2500).fadeOut();
+    $(this).trigger("reset");
+  });
+
+  // Contact form submission simulation
+  $('#contactForm').submit(function(e){
+    e.preventDefault();
+    $('#contactMessage').fadeIn().delay(2500).fadeOut();
+    $(this).trigger("reset");
+  });
+
+});
+</script>
+
+</body>
+</html>
