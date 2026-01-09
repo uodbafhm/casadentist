@@ -599,50 +599,53 @@
           <form id="appointmentForm">
             <div class="row g-3">
 
-              <!-- Nom -->
-              <div class="col-md-6">
-                <input type="text" class="form-control" placeholder="Nom" name="nom" required>
-              </div>
+  <!-- Nom -->
+  <div class="col-md-6">
+    <input type="text" class="form-control" placeholder="Nom" name="nom" required>
+  </div>
 
-              <!-- Prénom -->
-              <div class="col-md-6">
-                <input type="text" class="form-control" placeholder="Prénom" name="prenom" required>
-              </div>
+  <!-- Prénom -->
+  <div class="col-md-6">
+    <input type="text" class="form-control" placeholder="Prénom" name="prenom" required>
+  </div>
 
-              <!-- Téléphone -->
-              <div class="col-md-6">
-                <input type="tel" class="form-control" placeholder="Numéro de téléphone" name="phone" required>
-              </div>
+  <!-- Téléphone -->
+  <div class="col-md-6">
+    <input type="tel" class="form-control" placeholder="Numéro de téléphone" name="phone" required>
+  </div>
 
-              <!-- Date -->
-              <div class="col-md-6">
-                <input type="date" class="form-control" name="date" required>
-              </div>
+  <!-- Date -->
+  <div class="col-md-6">
+    <input type="date" class="form-control" name="date" required>
+  </div>
 
-              <!-- Service -->
-              <div class="col-12">
-                <select class="form-select" name="service" required>
-                  <option value="">Sélectionner un service</option>
-                  <option>Nettoyage des dents</option>
-                  <option>Blanchiment des dents</option>
-                  <option>Implants dentaires</option>
-                  <option>Appareils dentaires et orthodontie</option>
-                  <option>Soins restaurateurs</option>
-                  <option>Dentisterie d'urgence</option>
-                </select>
-              </div>
+  <!-- Service -->
+  <div class="col-12">
+    <select class="form-select" name="service" required>
+      <option value="">Sélectionner un service</option>
+      <option>Nettoyage des dents</option>
+      <option>Blanchiment des dents</option>
+      <option>Implants dentaires</option>
+      <option>Appareils dentaires et orthodontie</option>
+      <option>Soins restaurateurs</option>
+      <option>Dentisterie d'urgence</option>
+    </select>
+  </div>
 
-              <!-- Message -->
-              <div class="col-12">
-                <textarea class="form-control" name="message" rows="3" placeholder="Notes supplémentaires"></textarea>
-              </div>
+  <!-- Message -->
+  <div class="col-12">
+    <textarea class="form-control" name="message" rows="3" placeholder="Notes supplémentaires"></textarea>
+  </div>
 
-              <!-- Button -->
-              <div class="col-12 text-center">
-                <button type="submit" class="btn btn-brand">
-                  <i class="bi bi-calendar2-check me-1"></i> Soumettre le rendez-vous
-                </button>
-              </div>
+  <!-- Button -->
+  <div class="col-12 text-center">
+    <button type="button" class="btn btn-brand" onclick="sendWhatsApp()">
+      <i class="bi bi-calendar2-check me-1"></i> Soumettre le rendez-vous
+    </button>
+  </div>
+
+</div>
+
 
             </div>
           </form>
@@ -809,6 +812,36 @@ $(document).ready(function(){
 
 });
 </script>
+  <!-- هنا كيسالي HTML ديالك -->
+
+  <script>
+    function sendWhatsApp() {
+      const nom = document.querySelector('[name="nom"]').value;
+      const prenom = document.querySelector('[name="prenom"]').value;
+      const phone = document.querySelector('[name="phone"]').value;
+      const date = document.querySelector('[name="date"]').value;
+      const service = document.querySelector('[name="service"]').value;
+      const notes = document.querySelector('[name="message"]').value;
+
+      const whatsappNumber = "+212643587891"; // ← حط رقمك هنا
+
+      const text =
+`📅 Nouvelle réservation
+
+Nom: ${nom}
+Prénom: ${prenom}
+Téléphone: ${phone}
+Date: ${date}
+Service: ${service}
+Notes: ${notes || "Aucune"}`;
+
+      const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
+      window.open(url, "_blank");
+    }
+  </script>
+
+</body>
+</html>
 
 </body>
 </html>
